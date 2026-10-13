@@ -2,16 +2,19 @@ import React from 'react';
 import { Mail, ArrowUp } from 'lucide-react';
 import { SOCIAL_LINKS } from '../data/portfolioData';
 import { GithubIcon, LinkedinIcon } from './BrandIcons';
+import { useTheme } from '../context/useTheme';
+
+const CURRENT_YEAR = new Date().getFullYear();
 
 export const Footer: React.FC = () => {
-  const currentYear = new Date().getFullYear();
+  const { config } = useTheme();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <footer className="border-t border-white/[0.08] bg-[#07080c] py-12 px-4 sm:px-6 relative">
+    <footer className="border-t border-white/[0.08] bg-[#03050c] py-12 px-4 sm:px-6 relative z-10">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
         
         {/* Left Branding */}
@@ -34,7 +37,7 @@ export const Footer: React.FC = () => {
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-lg bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] text-slate-400 hover:text-white transition-all text-xs flex items-center gap-1.5"
+              className="p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] text-slate-400 hover:text-white transition-all text-xs flex items-center gap-1.5 hover:border-white/20"
             >
               {link.name === 'GitHub' && <GithubIcon className="w-3.5 h-3.5" />}
               {link.name === 'LinkedIn' && <LinkedinIcon className="w-3.5 h-3.5" />}
@@ -45,14 +48,18 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Right / Copyright & Scroll top */}
-        <div className="flex items-center gap-4 text-xs text-slate-500 font-mono">
-          <span>&copy; {currentYear} Hritick Kumar</span>
+        <div className="flex items-center gap-4 text-xs text-slate-400 font-mono">
+          <span>&copy; {CURRENT_YEAR} Hritick Kumar</span>
           <button
             onClick={scrollToTop}
-            className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white border border-white/5 transition-all cursor-pointer"
+            className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 transition-all cursor-pointer"
             aria-label="Scroll back to top"
+            title="Scroll back to top"
+            style={{
+              borderColor: `${config.primaryHex}30`,
+            }}
           >
-            <ArrowUp className="w-3.5 h-3.5" />
+            <ArrowUp className="w-3.5 h-3.5" style={{ color: config.primaryHex }} />
           </button>
         </div>
 

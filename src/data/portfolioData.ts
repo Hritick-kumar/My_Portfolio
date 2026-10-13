@@ -17,8 +17,9 @@ export const PERSONAL_INFO = {
   email: "reachhritick@gmail.com",
   githubUrl: "https://github.com/Hritick-kumar/",
   linkedinUrl: "https://www.linkedin.com/in/hritick-kumar-",
-  resumeUrl: "/resume.pdf",
+  resumeUrl: "https://drive.google.com/file/d/1zJG4RvPtNjCeQcPdxpSDqaSaDb_1RF5S/view?usp=sharing",
   location: "India",
+  avatarUrl: "/profile.jpg",
 };
 
 export const SOCIAL_LINKS: SocialLink[] = [

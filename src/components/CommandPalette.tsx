@@ -9,9 +9,12 @@ import {
   FileText, 
   X,
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  Box,
+  Palette
 } from 'lucide-react';
 import { PERSONAL_INFO } from '../data/portfolioData';
+import { useTheme } from '../context/useTheme';
 
 interface CommandPaletteProps {
   isOpen: boolean;
@@ -25,6 +28,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
   onSelectProject 
 }) => {
   const [query, setQuery] = useState('');
+  const { config, setAccent } = useTheme();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -75,6 +79,36 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: "Projects",
       icon: Layers,
       action: () => { onClose(); onSelectProject('routepilot'); }
+    },
+    {
+      title: "Interactive System Simulation",
+      category: "Interactive",
+      icon: Box,
+      action: () => navigateToSection('hero')
+    },
+    {
+      title: "Switch Theme: Cyber Cyan",
+      category: "Theme",
+      icon: Palette,
+      action: () => { setAccent('cyan'); onClose(); }
+    },
+    {
+      title: "Switch Theme: Holo Violet",
+      category: "Theme",
+      icon: Palette,
+      action: () => { setAccent('violet'); onClose(); }
+    },
+    {
+      title: "Switch Theme: Matrix Mint",
+      category: "Theme",
+      icon: Palette,
+      action: () => { setAccent('emerald'); onClose(); }
+    },
+    {
+      title: "Switch Theme: Quantum Gold",
+      category: "Theme",
+      icon: Palette,
+      action: () => { setAccent('amber'); onClose(); }
     },
     {
       title: "Jump to Experience Timeline",
@@ -130,7 +164,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
         onClick={onClose}
       />
 
-      <div className="relative w-full max-w-xl bg-[#0d101b] border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-10 flex flex-col">
+      <div className="relative w-full max-w-xl bg-[#090d18] border border-white/15 rounded-2xl shadow-2xl overflow-hidden z-10 flex flex-col backdrop-blur-2xl">
         {/* Search Input Bar */}
         <div className="flex items-center gap-3 px-4 py-3.5 border-b border-white/10 bg-white/[0.02]">
           <Search className="w-4 h-4 text-slate-400" />
@@ -140,20 +174,20 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Type a command or jump to section..."
-            className="w-full bg-transparent text-sm text-white placeholder-slate-500 focus:outline-none"
+            className="w-full bg-transparent text-sm text-white placeholder-slate-500 focus:outline-none font-mono"
           />
           <button 
             onClick={onClose}
-            className="p-1 rounded-md text-slate-400 hover:text-white"
+            className="p-1 rounded-lg hover:bg-white/10 text-slate-400 hover:text-white transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        {/* Results List */}
-        <div className="max-h-80 overflow-y-auto p-2 space-y-1">
+        {/* Command List */}
+        <div className="max-h-80 overflow-y-auto p-2 space-y-1 modal-scrollbar">
           {filtered.length === 0 ? (
-            <div className="py-8 text-center text-xs text-slate-500">
+            <div className="p-6 text-center text-xs font-mono text-slate-500">
               No matching commands found.
             </div>
           ) : (
@@ -163,34 +197,39 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                 <button
                   key={idx}
                   onClick={item.action}
-                  className="w-full flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 text-left transition-colors cursor-pointer group"
+                  className="w-full flex items-center justify-between p-2.5 rounded-xl hover:bg-white/10 text-left transition-colors group cursor-pointer"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="p-1.5 rounded-lg bg-white/5 text-slate-400 group-hover:text-blue-400 group-hover:bg-blue-500/10 transition-colors">
+                    <div 
+                      className="p-1.5 rounded-lg bg-white/5 text-slate-400 group-hover:text-white transition-colors"
+                      style={{ color: config.primaryHex }}
+                    >
                       <Icon className="w-4 h-4" />
                     </div>
                     <div>
-                      <div className="text-xs font-medium text-slate-200 group-hover:text-white">
+                      <div className="text-xs font-medium text-white group-hover:text-cyan-300 transition-colors">
                         {item.title}
                       </div>
-                      <div className="text-[10px] text-slate-500 font-mono">
+                      <div className="text-[10px] font-mono text-slate-400">
                         {item.category}
                       </div>
                     </div>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-slate-300 transition-colors" />
+
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-white transition-colors" />
                 </button>
               );
             })
           )}
         </div>
 
-        {/* Palette Footer */}
-        <div className="px-4 py-2 border-t border-white/5 bg-white/[0.01] flex items-center justify-between text-[11px] text-slate-500 font-mono">
-          <span>Navigate with mouse or click</span>
-          <span className="flex items-center gap-1.5">
-            <kbd className="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-[10px]">ESC</kbd> to close
-          </span>
+        {/* Footer shortcuts */}
+        <div className="px-4 py-2 border-t border-white/5 bg-black/40 flex items-center justify-between text-[11px] font-mono text-slate-400">
+          <div className="flex items-center gap-2">
+            <span>Navigation:</span>
+            <span className="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-[10px]">Esc</span> to exit
+          </div>
+          <span style={{ color: config.primaryHex }}>Interactive Command Nexus</span>
         </div>
       </div>
     </div>
