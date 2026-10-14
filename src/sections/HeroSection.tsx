@@ -14,11 +14,15 @@ import {
   Code,
   Sparkles
 } from 'lucide-react';
+import { lazy, Suspense } from 'react';
 import { PERSONAL_INFO } from '../data/portfolioData';
 import { copyToClipboard } from '../lib/utils';
 import { GithubIcon, LinkedinIcon } from '../components/BrandIcons';
-import { HeroThreeCanvas } from '../components/HeroThreeCanvas';
 import { useTheme } from '../context/useTheme';
+
+const HeroThreeCanvas = lazy(() =>
+  import('../components/HeroThreeCanvas').then((m) => ({ default: m.HeroThreeCanvas }))
+);
 
 export const HeroSection: React.FC = () => {
   const [copied, setCopied] = useState(false);
@@ -283,7 +287,19 @@ export const HeroSection: React.FC = () => {
           <div className="p-4 sm:p-6">
             {activeTab === '3d' && (
               <div className="space-y-4">
-                <HeroThreeCanvas />
+                <Suspense
+                  fallback={
+                    <div className="relative w-full h-[360px] sm:h-[400px] rounded-2xl bg-gradient-to-b from-black/50 via-[#070b16]/70 to-black/80 border border-white/10 flex flex-col items-center justify-center gap-3">
+                      <div 
+                        className="w-8 h-8 rounded-full border-2 border-white/20 border-t-transparent animate-spin"
+                        style={{ borderTopColor: config.primaryHex }}
+                      />
+                      <span className="text-xs font-mono text-slate-400">Loading 3D Viewport Engine...</span>
+                    </div>
+                  }
+                >
+                  <HeroThreeCanvas />
+                </Suspense>
                 <div className="flex flex-wrap items-center justify-between text-[11px] text-slate-400 font-mono pt-2 border-t border-white/5 gap-2">
                   <span className="flex items-center gap-1.5 text-slate-300">
                     <Sparkles className="w-3.5 h-3.5" style={{ color: config.primaryHex }} />

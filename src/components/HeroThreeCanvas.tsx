@@ -46,13 +46,14 @@ export const HeroThreeCanvas: React.FC = () => {
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     camera.position.set(0, 0, 14);
 
+    const isMobile = window.innerWidth < 768;
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
-      antialias: true,
-      powerPreference: 'high-performance',
+      antialias: !isMobile,
+      powerPreference: isMobile ? 'default' : 'high-performance',
     });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio, 1.5));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.2;
     container.appendChild(renderer.domElement);
@@ -237,11 +238,13 @@ export const HeroThreeCanvas: React.FC = () => {
     });
     resizeObserver.observe(container);
 
-    // Animation Loop
-    let animationFrameId: number;
+    // Animation Loop & Viewport Visibility Tracking
+    let animationFrameId: number | null = null;
     let clock = new THREE.Clock();
+    let isVisible = true;
 
     const animate = () => {
+      if (!isVisible) return;
       animationFrameId = requestAnimationFrame(animate);
       const elapsedTime = clock.getElapsedTime();
 
@@ -313,10 +316,30 @@ export const HeroThreeCanvas: React.FC = () => {
       renderer.render(scene, camera);
     };
 
+    // Pause rendering when scrolled out of view to save 100% GPU/CPU on mobile
+    const intersectionObserver = new IntersectionObserver(
+      ([entry]) => {
+        const wasVisible = isVisible;
+        isVisible = entry.isIntersecting;
+        if (isVisible && !wasVisible) {
+          clock.start();
+          animate();
+        } else if (!isVisible && animationFrameId !== null) {
+          cancelAnimationFrame(animationFrameId);
+          animationFrameId = null;
+        }
+      },
+      { threshold: 0.05 }
+    );
+    intersectionObserver.observe(container);
+
     animate();
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId);
+      }
+      intersectionObserver.disconnect();
       resizeObserver.disconnect();
       domElement.removeEventListener('mousedown', onPointerDown);
       domElement.removeEventListener('mousemove', onPointerMove);

@@ -25,23 +25,25 @@ export const BackgroundCanvas3D: React.FC = () => {
     );
     camera.position.z = 80;
 
+    const isMobile = window.innerWidth < 768;
+
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
-      antialias: true,
-      powerPreference: 'high-performance',
+      antialias: !isMobile,
+      powerPreference: isMobile ? 'default' : 'high-performance',
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio, 1.5));
     container.appendChild(renderer.domElement);
 
-    // Particle Constellation
-    const particleCount = 140;
+    // Particle Constellation - tuned for mobile performance
+    const particleCount = isMobile ? 35 : 100;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const velocities: { x: number; y: number; z: number }[] = [];
 
-    const rangeX = 140;
-    const rangeY = 90;
+    const rangeX = isMobile ? 80 : 140;
+    const rangeY = isMobile ? 60 : 90;
     const rangeZ = 70;
 
     for (let i = 0; i < particleCount; i++) {
@@ -108,13 +110,45 @@ export const BackgroundCanvas3D: React.FC = () => {
 
     window.addEventListener('resize', onResize);
 
-    // Animation loop
+    // Scroll throttle on mobile to keep scroll 100% fluid
+    let isScrolling = false;
+    let scrollDebounce: ReturnType<typeof setTimeout> | null = null;
+    const onScroll = () => {
+      if (!isMobile) return;
+      isScrolling = true;
+      if (scrollDebounce) clearTimeout(scrollDebounce);
+      scrollDebounce = setTimeout(() => {
+        isScrolling = false;
+      }, 120);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Animation loop & tab visibility
     let animationId: number;
     let isRunning = true;
+
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        isRunning = false;
+        cancelAnimationFrame(animationId);
+      } else {
+        isRunning = true;
+        animate();
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
+    let frameCount = 0;
 
     const animate = () => {
       if (!isRunning) return;
       animationId = requestAnimationFrame(animate);
+      frameCount++;
+
+      // When fast scrolling on mobile, throttle line distance updates
+      if (isMobile && isScrolling && frameCount % 2 !== 0) {
+        return;
+      }
 
       // Smooth mouse lerp
       mouseX += (targetMouseX - mouseX) * 0.05;
@@ -132,7 +166,7 @@ export const BackgroundCanvas3D: React.FC = () => {
       const posArray = posAttr.array as Float32Array;
 
       let lineVertexIndex = 0;
-      const maxDistance = 24;
+      const maxDistance = isMobile ? 18 : 24;
 
       for (let i = 0; i < particleCount; i++) {
         // Position update with velocity
@@ -182,6 +216,9 @@ export const BackgroundCanvas3D: React.FC = () => {
       cancelAnimationFrame(animationId);
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('resize', onResize);
+      window.removeEventListener('scroll', onScroll);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+      if (scrollDebounce) clearTimeout(scrollDebounce);
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }

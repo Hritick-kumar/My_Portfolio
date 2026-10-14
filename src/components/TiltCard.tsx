@@ -25,6 +25,8 @@ export const TiltCard: React.FC<TiltCardProps> = ({
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
+      // Don't calculate on touch devices (saves massive CPU/GPU on mobile scroll)
+      if (window.matchMedia && window.matchMedia('(hover: none)').matches) return;
       if (!cardRef.current) return;
       const rect = cardRef.current.getBoundingClientRect();
       const x = e.clientX - rect.left;
@@ -54,6 +56,7 @@ export const TiltCard: React.FC<TiltCardProps> = ({
   );
 
   const handleMouseLeave = useCallback(() => {
+    if (window.matchMedia && window.matchMedia('(hover: none)').matches) return;
     setStyle({
       transform: `perspective(${perspective}px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`,
       transition: 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
@@ -67,7 +70,7 @@ export const TiltCard: React.FC<TiltCardProps> = ({
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={style}
-      className={`relative will-change-transform transform-gpu ${className}`}
+      className={`relative md:will-change-transform ${className}`}
     >
       {children}
       {/* Dynamic Specular Glare Sheen */}

@@ -2,7 +2,8 @@
 <html lang="en" class="dark scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
+    <link rel="apple-touch-icon" href="/favicon.svg?v=2" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <!-- Primary Meta Tags -->
@@ -16,12 +17,14 @@
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Hritick Kumar | Full-Stack Developer & Software Analyst" />
     <meta property="og:description" content="Hritick Kumar is a Full-Stack Developer and Software Analyst specializing in React, Node.js, TypeScript, APIs, databases, cloud systems and AI-powered applications." />
+    <meta property="og:image" content="/profile.jpg" />
     <meta property="og:site_name" content="Hritick Kumar Portfolio" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:title" content="Hritick Kumar | Full-Stack Developer & Software Analyst" />
     <meta property="twitter:description" content="Hritick Kumar is a Full-Stack Developer and Software Analyst specializing in React, Node.js, TypeScript, APIs, databases, cloud systems and AI-powered applications." />
+    <meta property="twitter:image" content="/profile.jpg" />
 
     <!-- Schema.org JSON-LD for Search Engines -->
     <script type="application/ld+json">
@@ -47,8 +50,86 @@
     }
     </script>
   </head>
-  <body class="bg-[#08090d] text-slate-100 antialiased selection:bg-blue-600 selection:text-white">
-    <div id="root"></div>
+  <body class="bg-[#04060d] text-slate-100 antialiased selection:bg-blue-600 selection:text-white">
+    <div id="root">
+      <!-- Fast Inline Preloader for Slow Mobile Networks -->
+      <div id="initial-loader" style="position:fixed;inset:0;background-color:#04060d;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#e2e8f0;">
+        <style>
+          @keyframes loaderPulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.08); opacity: 1; }
+          }
+          @keyframes loaderSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+          @keyframes loaderBar {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(200%); }
+          }
+          .loader-ring {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            border: 2px solid rgba(0, 229, 255, 0.15);
+            border-top-color: #00e5ff;
+            border-right-color: #3b82f6;
+            animation: loaderSpin 1.1s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            position: absolute;
+          }
+          .loader-core {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(0,229,255,0.2) 0%, rgba(59,130,246,0.2) 100%);
+            border: 1px solid rgba(0, 229, 255, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 0.05em;
+            color: #ffffff;
+            box-shadow: 0 0 25px rgba(0, 229, 255, 0.25);
+            animation: loaderPulse 2s ease-in-out infinite;
+          }
+          .loader-progress-track {
+            width: 160px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 99px;
+            overflow: hidden;
+            position: relative;
+            margin-top: 20px;
+          }
+          .loader-progress-fill {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 50%;
+            background: linear-gradient(90deg, #00e5ff, #3b82f6);
+            border-radius: 99px;
+            animation: loaderBar 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+          }
+        </style>
+        <div style="position:relative;width:72px;height:72px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
+          <div class="loader-ring"></div>
+          <div class="loader-core">HK</div>
+        </div>
+        <div style="font-size:17px;font-weight:700;color:#ffffff;letter-spacing:-0.02em;margin-bottom:4px;">
+          Hritick Kumar
+        </div>
+        <div style="font-size:12px;font-family:monospace;color:#94a3b8;letter-spacing:0.02em;">
+          Software Analyst &middot; Full-Stack
+        </div>
+        <div class="loader-progress-track">
+          <div class="loader-progress-fill"></div>
+        </div>
+        <div style="margin-top:10px;font-size:11px;font-family:monospace;color:#64748b;">
+          Loading experience...
+        </div>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

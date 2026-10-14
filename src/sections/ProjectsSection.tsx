@@ -5,7 +5,6 @@ import {
 } from 'lucide-react';
 import { PROJECTS_DATA } from '../data/portfolioData';
 import type { ProjectCaseStudy } from '../types';
-import { ProjectModal } from '../components/ProjectModal';
 import { TipAppArchitectureVisualizer } from '../components/ArchitectureDiagram';
 import { TradingVisualizer } from '../components/TradingVisualizer';
 import { SentimentDemo } from '../components/SentimentDemo';
@@ -13,13 +12,11 @@ import { TiltCard } from '../components/TiltCard';
 import { useTheme } from '../context/useTheme';
 
 interface ProjectsSectionProps {
-  selectedProject: ProjectCaseStudy | null;
-  setSelectedProject: (project: ProjectCaseStudy | null) => void;
+  onSelectProject: (project: ProjectCaseStudy) => void;
 }
 
 export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
-  selectedProject,
-  setSelectedProject,
+  onSelectProject,
 }) => {
   const [filter, setFilter] = useState<'all' | 'production' | 'mvp'>('all');
   const { config } = useTheme();
@@ -183,7 +180,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
                         </div>
 
                         <button
-                          onClick={() => setSelectedProject(project)}
+                          onClick={() => onSelectProject(project)}
                           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-xs font-semibold transition-all cursor-pointer shadow-lg transform hover:-translate-y-0.5"
                           style={{
                             background: `linear-gradient(135deg, ${config.primaryHex} 0%, ${config.secondaryHex} 100%)`,
@@ -231,7 +228,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
                                 Multi-leg freight scheduling engine with waypoint optimization and real-time shipment manifest tracking.
                               </p>
                               <button
-                                onClick={() => setSelectedProject(project)}
+                                onClick={() => onSelectProject(project)}
                                 className="text-xs hover:underline font-mono cursor-pointer"
                                 style={{ color: config.primaryHex }}
                               >
@@ -251,12 +248,6 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
         </div>
 
       </div>
-
-      {/* Case Study Modal */}
-      <ProjectModal
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-      />
     </section>
   );
 };
