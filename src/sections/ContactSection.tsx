@@ -73,10 +73,10 @@ export const ContactSection: React.FC = () => {
             </p>
 
             <div className="space-y-4 mb-8">
-              <div className="p-4 rounded-xl bg-gradient-to-b from-[#0a0e1c] to-[#060912] border border-white/10 flex items-center justify-between shadow-lg">
-                <div className="flex items-center gap-3">
+              <div className="p-4 rounded-xl bg-gradient-to-b from-[#0a0e1c] to-[#060912] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-lg">
+                <div className="flex items-center gap-3 min-w-0">
                   <div 
-                    className="p-2.5 rounded-xl shadow-md"
+                    className="p-2.5 rounded-xl shadow-md shrink-0"
                     style={{
                       backgroundColor: `${config.primaryHex}15`,
                       color: config.primaryHex,
@@ -84,9 +84,9 @@ export const ContactSection: React.FC = () => {
                   >
                     <Mail className="w-4 h-4" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <div className="text-[10px] font-mono text-slate-400 uppercase">Direct Email</div>
-                    <div className="text-xs sm:text-sm font-semibold text-white font-mono">
+                    <div className="text-xs sm:text-sm font-semibold text-white font-mono truncate">
                       {PERSONAL_INFO.email}
                     </div>
                   </div>
@@ -94,14 +94,14 @@ export const ContactSection: React.FC = () => {
 
                 <button
                   onClick={handleCopyEmail}
-                  className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-slate-300 font-mono transition-all cursor-pointer flex items-center gap-1.5"
+                  className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-slate-300 font-mono transition-all cursor-pointer flex items-center justify-center gap-1.5 shrink-0 self-start sm:self-auto"
                 >
                   {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-slate-400" />}
                   <span>{copied ? "Copied" : "Copy"}</span>
                 </button>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <a
                   href={PERSONAL_INFO.linkedinUrl}
                   target="_blank"

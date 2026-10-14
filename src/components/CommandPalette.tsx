@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { 
   Search, 
   Terminal, 
@@ -45,7 +46,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  if (!isOpen || typeof document === 'undefined') return null;
 
   const navigateToSection = (id: string) => {
     onClose();
@@ -156,8 +157,8 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     c.category.toLowerCase().includes(query.toLowerCase())
   );
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 sm:pt-28 px-4">
+  return createPortal(
+    <div className="fixed inset-0 z-[9999] flex items-start justify-center pt-20 sm:pt-28 px-4">
       {/* Backdrop */}
       <div 
         className="fixed inset-0 bg-black/80 backdrop-blur-md transition-opacity"
@@ -232,6 +233,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
           <span style={{ color: config.primaryHex }}>Interactive Command Nexus</span>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

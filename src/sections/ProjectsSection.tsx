@@ -46,10 +46,10 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
           </div>
 
           {/* Filter Pills */}
-          <div className="flex items-center gap-1.5 p-1 bg-white/[0.04] border border-white/10 rounded-2xl self-start md:self-auto text-xs font-mono backdrop-blur-md">
+          <div className="flex items-center gap-1.5 p-1 bg-white/[0.04] border border-white/10 rounded-2xl self-start md:self-auto text-xs font-mono backdrop-blur-md max-w-full overflow-x-auto">
             <button
               onClick={() => setFilter('all')}
-              className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                 filter === 'all' 
                   ? 'text-white font-semibold shadow-md' 
                   : 'text-slate-400 hover:text-white'
@@ -64,7 +64,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
             </button>
             <button
               onClick={() => setFilter('production')}
-              className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                 filter === 'production' 
                   ? 'text-white font-semibold shadow-md' 
                   : 'text-slate-400 hover:text-white'
@@ -79,7 +79,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
             </button>
             <button
               onClick={() => setFilter('mvp')}
-              className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                 filter === 'mvp' 
                   ? 'text-white font-semibold shadow-md' 
                   : 'text-slate-400 hover:text-white'

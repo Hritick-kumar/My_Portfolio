@@ -137,7 +137,7 @@ export const HeroSection: React.FC = () => {
               </a>
 
               {/* Social Badges */}
-              <div className="flex items-center gap-2 pl-2 border-l border-white/10">
+              <div className="flex items-center gap-2 pl-0 sm:pl-2 border-l-0 sm:border-l border-white/10">
                 <a
                   href={PERSONAL_INFO.githubUrl}
                   target="_blank"
@@ -241,10 +241,10 @@ export const HeroSection: React.FC = () => {
             </div>
 
             {/* Showcase Mode Tabs */}
-            <div className="flex items-center gap-1 bg-white/5 p-1 rounded-xl border border-white/5 text-[11px] font-mono">
+            <div className="flex items-center gap-1 bg-white/5 p-1 rounded-xl border border-white/5 text-[11px] font-mono overflow-x-auto max-w-full">
               <button
                 onClick={() => setActiveTab('3d')}
-                className={`flex items-center gap-1.5 px-3 py-1 rounded-lg transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 py-1 rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                   activeTab === '3d' 
                     ? 'bg-white/20 text-white font-semibold shadow-md' 
                     : 'text-slate-400 hover:text-white'
@@ -257,7 +257,7 @@ export const HeroSection: React.FC = () => {
 
               <button
                 onClick={() => setActiveTab('flow')}
-                className={`flex items-center gap-1.5 px-3 py-1 rounded-lg transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 py-1 rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                   activeTab === 'flow' 
                     ? 'bg-white/20 text-white font-semibold shadow-md' 
                     : 'text-slate-400 hover:text-white'
@@ -270,7 +270,7 @@ export const HeroSection: React.FC = () => {
 
               <button
                 onClick={() => setActiveTab('code')}
-                className={`flex items-center gap-1.5 px-3 py-1 rounded-lg transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 py-1 rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                   activeTab === 'code' 
                     ? 'bg-white/20 text-white font-semibold shadow-md' 
                     : 'text-slate-400 hover:text-white'
